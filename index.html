@@ -127,6 +127,15 @@
         console.log(response.lines.length);
         // for(var i=0; i<response.lines.length; i++)
         //     console.log(i);
+      
+       var timeoutID = setInterval(function () {
+            // Limit the number of calls.
+            if (--tries <= 0) {
+                window.clearTimeout(timeoutID);
+    
+              return;
+            }
+      
         var text="";
         for(var i=0; i<response.lines.length; i++)
           for(var j=0; j<response.lines[i].words.length; j++)
@@ -135,10 +144,10 @@
            callAPI(text);
            responseTextArea.val(text);
          
-          window.clearTimeout(1000);
+          window.clearTimeout(timeoutID);
           var x = document.getElementById("main");
           x.style.display = "block";
-        },1000)
+        })
    
       .fail(function(jqXHR, textStatus, errorThrown) {
           // Put the JSON description into the text area.
