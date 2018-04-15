@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Optical Character Recognition</title>
+    <link rel="stylesheet" href="bootstrap.css">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="content">
+        <div class="title">
+          <h3>Text and Image Analysis</h3>
+        </div>
+       <div class="inputLink">
+          <input type="text" name="inputImage" id="inputImage" placeholder=" Url Image">
+          <button id="btnRead" name="button" onclick="handwritingButtonClick()">Read Image</button>
+       </div>
+      </div>
+
+      <div id="loading" style="margin-top: 160px;"></div>
+      <div class="main" id="main" style="display:none">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card">
+                  <div class="card-block">
+                    <div class="detectLanguage">
+                      <p id="region"></p>
+                      <div id="myProgress">
+                        <div id="myBar"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card area-text">
+                  <div class="card-block">
+                      <div class="result">
+                          <textarea name="name" id="responseTextArea" class="UIInput" rows="8" cols="60"></textarea>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                  <div class="card">
+                    <div class="card-block">
+                      <div class="image">
+                          <img id="sourceImage" onerror="common.imageLoadError()">
+                      </div>
+                    </div>
+                  </div>
+              </div>
+        </div>
+      </div>
+      <div class="disable">
+        <input type="text" class="subKeyInput" name="subscriptionKeyInput" value="527fa26da94545ca9e047d60c87184f7" id="subscriptionKeyInput"
+        onchange="common.subscriptionChange()" value="Copy/paste your subscription key here.">
+        <select name="subscriptionRegionSelect" id="subscriptionRegionSelect" onchange="common.subscriptionChange()">
+                      <option value="westcentralus" selected>westcentralus</option>
+                      <option value="westus">westus</option>
+                      <option value="eastus2">eastus2</option>
+                      <option value="westeurope">westeurope</option>
+                      <option value="southeastasia">southeastasia</option>
+        </select>
+      </div>
+    </div>
+
+
+  <footer class="footer"></footer>
+
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js" charset="utf-8"></script>
+      <script src="jquery.min.js" charset="utf-8"></script>
+      <script src="bootstrap.min.js" charset="utf-8"></script>
+      <script src="common.js" charset="utf-8"></script>
+      <script src="myJs.js" charset="utf-8"></script>
+
+      <script type="text/javascript">
+    //   function ocrButtonClick() {
+    //       var x = document.getElementById("main");
+    //       x.style.display = "block";
+    //       // Clear the display fields.
+    //       $("#sourceImage").attr("src", "#");
+    //       $("#responseTextArea").val("");
+    //       $("#captionSpan").text("");
+    //
+    //       // Display the image.
+    //       var sourceImageUrl = $("#inputImage").val();
+    //       $("#sourceImage").attr("src", sourceImageUrl);
+    //
+    //       ReadOcrImage(sourceImageUrl, $("#responseTextArea"));
+    //       alert('test');
+    //     }
+    //     function ReadOcrImage(sourceImageUrl, responseTextArea) {
+    // // Request parameters.
+    // var params = {
+    //     "language": "unk",
+    //     "detectOrientation ": "true",
+    // };
+    //
+    // // Perform the REST API call.
+    // $.ajax({
+    //     url: common.uriBasePreRegion +
+    //          $("#subscriptionRegionSelect").val() +
+    //          common.uriBasePostRegion +
+    //          common.uriBaseOcr +
+    //          "?" +
+    //          $.param(params),
+    //
+    //     // Request headers.
+    //     beforeSend: function(jqXHR){
+    //         jqXHR.setRequestHeader("Content-Type","application/json");
+    //         jqXHR.setRequestHeader("Ocp-Apim-Subscription-Key",
+    //             encodeURIComponent($("#subscriptionKeyInput").val()));
+    //     },
+    //
+    //     type: "POST",
+    //
+    //     // Request body.
+    //     data: '{"url": ' + '"' + sourceImageUrl + '"}',
+    // })
+    //
+    // .done(function(data) {
+    //     // Show formatted JSON on webpage.
+    //     //responseTextArea.val(JSON.stringify(data, null, 2));lines[0].words[0].text
+    //     //console.log(responseTextArea.value());
+    //     var response = data.regions[0];
+    //     console.log(response.lines.length);
+    //     // for(var i=0; i<response.lines.length; i++)
+    //     //     console.log(i);
+    //     var text="";
+    //     for(var i=0; i<response.lines.length; i++)
+    //       for(var j=0; j<response.lines[i].words.length; j++)
+    //          text += data.regions[0].lines[i].words[j].text+" ";
+    //
+    //      responseTextArea.val(text);
+    //     })
+    //
+    //
+    //   .fail(function(jqXHR, textStatus, errorThrown) {
+    //       // Put the JSON description into the text area.
+    //       responseTextArea.val(JSON.stringify(jqXHR, null, 2));
+    //
+    //       // Display error message.
+    //       var errorString = (errorThrown === "") ? "Error. " : errorThrown + " (" + jqXHR.status + "): ";
+    //       errorString += (jqXHR.responseText === "") ? "" : (jQuery.parseJSON(jqXHR.responseText).message) ?
+    //           jQuery.parseJSON(jqXHR.responseText).message : jQuery.parseJSON(jqXHR.responseText).error.message;
+    //       alert(errorString);
+    //     });
+    //   }
+
+    // function handwritingButtonClick() {
+    // // Clear the display fields.
+    // alert('click');
+    // // $("#sourceImage").attr("src", "#");
+    // // $("#responseTextArea").val("");
+    // //
+    // // // Display the image.
+    // // var sourceImageUrl = $("#inputImage").val();
+    // // $("#sourceImage").attr("src", sourceImageUrl);
+    // //
+    // // ReadHandwrittenImage(sourceImageUrl, $("#responseTextArea"));
+    // }
+
+    // $(document).ready(function(){
+    //     $(document).ajaxStart(function(){
+    //         $("#loading").css("display", "block");
+    //     });
+    //     $(document).ajaxComplete(function(){
+    //         $("#loading").css("display", "none");
+    //     });
+    // });
+  // <object type="image/svg+xml" style="display:none" id="loading" data="svg/loadding.svg">1 svg file missing</object>
+    // function load(){
+    //   $("#loading").load('svg/loading.svg');
+    // }
+
+    function handwritingButtonClick() {
+    // Clear the display fields.
+    var x = document.getElementById("main");
+    x.style.display = "none";
+    $("#loading").css("display", "block");
+    $("#loading").load('loading2.svg');
+
+    $("#sourceImage").attr("src", "#");
+    $("#responseTextArea").val("");
+    // Display the image.
+    var sourceImageUrl = $("#inputImage").val();
+    $("#sourceImage").attr("src", sourceImageUrl);
+    ReadHandwrittenImage(sourceImageUrl, $("#responseTextArea"));
+    }
+
+    /* Recognize and read text from an image of handwriting at the specified URL by using Microsoft
+ * Cognitive Services Recognize Handwritten Text API.
+ * @param {string} sourceImageUrl - The URL to the image to analyze for handwriting.
+ * @param {<textarea> element} responseTextArea - The text area to display the JSON string returned
+ *                             from the REST API call, or to display the error message if there was
+ *                             an error.
+ */
+function ReadHandwrittenImage(sourceImageUrl, responseTextArea) {
+    // Request parameters.
+    var params = {
+        "handwriting": "true",
+    };
+
+    // This operation requrires two REST API calls. One to submit the image for processing,
+    // the other to retrieve the text found in the image.
+    //
+    // Perform the first REST API call to submit the image for processing.
+    $.ajax({
+        url: common.uriBasePreRegion +
+             $("#subscriptionRegionSelect").val() +
+             common.uriBasePostRegion +
+             common.uriBaseHandwriting +
+             "?" +
+             $.param(params),
+
+        // Request headers.
+        beforeSend: function(jqXHR){
+            jqXHR.setRequestHeader("Content-Type","application/json");
+            jqXHR.setRequestHeader("Ocp-Apim-Subscription-Key",
+                encodeURIComponent($("#subscriptionKeyInput").val()));
+        },
+
+        type: "POST",
+
+        // Request body.
+        data: '{"url": ' + '"' + sourceImageUrl + '"}',
+    })
+
+    .done(function(data, textStatus, jqXHR) {
+        // Show progress.
+        responseTextArea.val("Handwritten image submitted.");
+
+        // Note: The response may not be immediately available. Handwriting Recognition is an
+        // async operation that can take a variable amount of time depending on the length
+        // of the text you want to recognize. You may need to wait or retry this GET operation.
+        //
+        // Try once per second for up to ten seconds to receive the result.
+        var tries = 10;
+        var waitTime = 100;
+        var taskCompleted = false;
+        var count=0;
+
+        var timeoutID = setInterval(function () {
+            // Limit the number of calls.
+            if (--tries <= 0) {
+                window.clearTimeout(timeoutID);
+                responseTextArea.val("The response was not available in the time allowed.");
+                return;
+            }
+
+            // The "Operation-Location" in the response contains the URI to retrieve the recognized text.
+            var operationLocation = jqXHR.getResponseHeader("Operation-Location");
+
+            // Perform the second REST API call and get the response.
+            $.ajax({
+                url: operationLocation,
+
+                // Request headers.
+                beforeSend: function(jqXHR){
+                    jqXHR.setRequestHeader("Content-Type","application/json");
+                    jqXHR.setRequestHeader("Ocp-Apim-Subscription-Key",
+                        encodeURIComponent($("#subscriptionKeyInput").val()));
+                },
+
+                type: "GET",
+            })
+
+            .done(function(data) {
+                // If the result is not yet available, return.
+                if (data.status && (data.status === "NotStarted" || data.status === "Running")) {
+                    return;
+                }
+                //loading svg
+                $("#loading").css("display", "none");
+                // Show formatted JSON on webpage.
+                var response = data.recognitionResult;
+
+                var text="";
+                  for(var i=0; i<response.lines.length; i++)
+                  {
+                    for(var j=0; j<response.lines[i].words.length; j++)
+                    {
+                       text += data.recognitionResult.lines[i].words[j].text+" ";
+                    }
+                  }
+
+
+                  if(count==0)
+                      callAPI(text);
+                  count++;
+                 responseTextArea.val(text);
+                //responseTextArea.val(JSON.stringify(data, null, 2));
+
+                // Indicate the task is complete and clear the timer.
+                taskCompleted = true;
+                window.clearTimeout(timeoutID);
+
+                var x = document.getElementById("main");
+                x.style.display = "block";
+            })
+
+            .fail(function(jqXHR, textStatus, errorThrown) {
+                // Indicate the task is complete and clear the timer.
+                taskCompleted = true;
+                window.clearTimeout(timeoutID);
+
+                // Display error message.
+                var errorString = (errorThrown === "") ? "Error. " : errorThrown + " (" + jqXHR.status + "): ";
+                errorString += (jqXHR.responseText === "") ? "" : (jQuery.parseJSON(jqXHR.responseText).message) ?
+                    jQuery.parseJSON(jqXHR.responseText).message : jQuery.parseJSON(jqXHR.responseText).error.message;
+                alert(errorString);
+            });
+        }, waitTime);
+    })
+
+    .fail(function(jqXHR, textStatus, errorThrown) {
+        // Put the JSON description into the text area.
+        responseTextArea.val(JSON.stringify(jqXHR, null, 2));
+
+        // Display error message.
+        var errorString = (errorThrown === "") ? "Error. " : errorThrown + " (" + jqXHR.status + "): ";
+        errorString += (jqXHR.responseText === "") ? "" : (jQuery.parseJSON(jqXHR.responseText).message) ?
+            jQuery.parseJSON(jqXHR.responseText).message : jQuery.parseJSON(jqXHR.responseText).error.message;
+        alert(errorString);
+    });
+}
+      </script>
+  </body>
+</html>
