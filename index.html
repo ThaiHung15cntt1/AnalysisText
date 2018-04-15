@@ -127,7 +127,7 @@
         console.log(response.lines.length);
         // for(var i=0; i<response.lines.length; i++)
         //     console.log(i);
-      
+        var tries = 10;
        var timeoutID = setInterval(function () {
             // Limit the number of calls.
             if (--tries <= 0) {
