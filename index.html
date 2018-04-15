@@ -132,9 +132,9 @@
           for(var j=0; j<response.lines[i].words.length; j++)
              text += data.regions[0].lines[i].words[j].text+" ";
           
-   
+           callAPI(text);
            responseTextArea.val(text);
-          callAPI(text);
+         
           window.clearTimeout(1000);
           var x = document.getElementById("main");
           x.style.display = "block";
