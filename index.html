@@ -122,8 +122,7 @@
     
     .done(function(data) {
         // Show formatted JSON on webpage.
-        //responseTextArea.val(JSON.stringify(data, null, 2));lines[0].words[0].text
-        //console.log(responseTextArea.value());
+        $("#loading").css("display", "none");
         var response = data.regions[0];
         console.log(response.lines.length);
         // for(var i=0; i<response.lines.length; i++)
@@ -133,11 +132,11 @@
           for(var j=0; j<response.lines[i].words.length; j++)
              text += data.regions[0].lines[i].words[j].text+" ";
           
-         callAPI(text);
-         responseTextArea.val(text);
-           $("#loading").css("display", "none");
+   
+           responseTextArea.val(text);
+          callAPI(text);
           var x = document.getElementById("main");
-                x.style.display = "block";
+          x.style.display = "block";
         })
    
       .fail(function(jqXHR, textStatus, errorThrown) {
