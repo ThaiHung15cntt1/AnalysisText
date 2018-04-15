@@ -127,14 +127,6 @@
         console.log(response.lines.length);
         // for(var i=0; i<response.lines.length; i++)
         //     console.log(i);
-        var tries = 10;
-       var timeoutID = setInterval(function () {
-            // Limit the number of calls.
-            if (--tries <= 0) {
-                window.clearTimeout(timeoutID);
-    
-              return;
-            });
       
         var text="";
         for(var i=0; i<response.lines.length; i++)
@@ -143,8 +135,6 @@
           
            callAPI(text);
            responseTextArea.val(text);
-         
-          window.clearTimeout(timeoutID);
           var x = document.getElementById("main");
           x.style.display = "block";
         })
